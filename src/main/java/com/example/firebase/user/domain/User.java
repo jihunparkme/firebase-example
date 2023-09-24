@@ -1,20 +1,18 @@
 package com.example.firebase.user.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.util.Date;
+import com.google.cloud.Timestamp;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
-    private Long id;
+    private String id;
     private String name;
     private String email;
-    private Date create_dt;
-    private Date update_dt;
+    private Timestamp create_dt;
+    private Timestamp update_dt;
 }
