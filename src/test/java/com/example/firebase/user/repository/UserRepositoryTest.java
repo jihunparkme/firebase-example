@@ -53,9 +53,9 @@ class UserRepositoryTest {
     @Test
     void editUser() throws Exception {
         User user = User.builder()
-                .id("yXMhDPpulEWGqO3ERzEU")
-                .name("Aaron222")
-                .email("aaron@gmail.com")
+                .id("lwXZ6ZN1GXc7zudOc5y3")
+                .name("Aaron")
+                .email("bbb@gmail.com")
                 .create_dt(Timestamp.now())
                 .build();
 
