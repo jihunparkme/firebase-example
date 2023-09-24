@@ -17,7 +17,7 @@ public class UserRepository {
 
     public static final String COLLECTION_NAME = "USERS";
 
-    public List<User> getUsers() throws ExecutionException, InterruptedException {
+    public List<User> getAllUsers() throws ExecutionException, InterruptedException {
         List<User> list = new ArrayList<>();
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COLLECTION_NAME).get();

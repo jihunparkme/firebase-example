@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getUsers() {
         try {
-            return userRepository.getUsers();
+            return userRepository.getAllUsers();
         } catch (Exception e) {
             log.error("UserRepository getUsers exception");
             return Collections.EMPTY_LIST;
