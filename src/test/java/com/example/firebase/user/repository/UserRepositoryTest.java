@@ -106,4 +106,10 @@ class UserRepositoryTest {
         assertThatThrownBy(() -> userRepository.removeUserByEmail(email))
                 .isInstanceOf(RuntimeException.class);
     }
+
+    @Test
+    void countAllUsers() throws Exception {
+        long count = userRepository.countAllUsers();
+        log.info("count users: {}", count);
+    }
 }

@@ -108,8 +108,7 @@ public class UserRepository {
         QuerySnapshot querySnapshot = null;
         try {
             querySnapshot = query.get();
-            long documentCount = querySnapshot.size();
-            return documentCount;
+            return querySnapshot.size();
         } catch (Exception e) {
             throw new RuntimeException("문서 조회를 실패하였습니다.");
         }
