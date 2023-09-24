@@ -92,4 +92,18 @@ class UserRepositoryTest {
         Optional<User> userOptional = userRepository.findUserByEmail(email);
         Assertions.assertTrue(userOptional.isEmpty());
     }
+
+    @Test
+    void removeUserByEmail() throws Exception {
+        String email = "bbb@gmail.com";
+        userRepository.removeUserByEmail(email);
+    }
+
+    @Test
+    void fail_removeUserByEmail() throws Exception {
+        String email = "abcdefg@gmail.com";
+
+        assertThatThrownBy(() -> userRepository.removeUserByEmail(email))
+                .isInstanceOf(RuntimeException.class);
+    }
 }

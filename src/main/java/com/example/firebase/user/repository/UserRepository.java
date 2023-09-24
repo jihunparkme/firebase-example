@@ -86,6 +86,22 @@ public class UserRepository {
         }
     }
 
+    public void removeUserByEmail(String email) {
+        Query query = FIRE_STORE.collection(COLLECTION_NAME).whereEqualTo("email", email);
+        ApiFuture<QuerySnapshot> future = query.get();
+        try {
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            if (!documents.isEmpty()) {
+                User user = documents.get(0).toObject(User.class);
+                FIRE_STORE.collection(COLLECTION_NAME).document(user.getId()).delete();
+                return;
+            }
+            throw new RuntimeException("해당 이메일로 계정이 존재하지 않습니다.");
+        } catch (Exception e) {
+            throw new RuntimeException("문서 조회를 실패하였습니다.");
+        }
+    }
+
     public long countAllUsers() {
         CollectionReference collectionRef = FIRE_STORE.collection(COLLECTION_NAME);
         ApiFuture<QuerySnapshot> query = collectionRef.get();

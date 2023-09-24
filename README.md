@@ -237,7 +237,31 @@ void editUser() throws Exception {
 
 ### 데이터(Document) 삭제
 
-https://cloud.google.com/firestore/docs/manage-data/delete-data?hl=ko#java_2
+```java
+public void removeUserByEmail(String email) {
+    Query query = FIRE_STORE.collection(COLLECTION_NAME).whereEqualTo("email", email);
+    ApiFuture<QuerySnapshot> future = query.get();
+    try {
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if (!documents.isEmpty()) {
+            User user = documents.get(0).toObject(User.class);
+            FIRE_STORE.collection(COLLECTION_NAME).document(user.getId()).delete();
+            return;
+        }
+        throw new RuntimeException("해당 이메일로 계정이 존재하지 않습니다.");
+    } catch (Exception e) {
+        throw new RuntimeException("문서 조회를 실패하였습니다.");
+    }
+}
+
+...
+
+@Test
+void removeUserByEmail() throws Exception {
+    String email = "bbb@gmail.com";
+    userRepository.removeUserByEmail(email);
+}
+```
 
 ## Hosting
 
