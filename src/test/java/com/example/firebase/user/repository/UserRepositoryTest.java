@@ -3,13 +3,16 @@ package com.example.firebase.user.repository;
 import com.example.firebase.user.domain.User;
 import com.google.cloud.Timestamp;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
 @SpringBootTest
@@ -51,11 +54,42 @@ class UserRepositoryTest {
     void editUser() throws Exception {
         User user = User.builder()
                 .id("yXMhDPpulEWGqO3ERzEU")
-                .name("Aaron1")
+                .name("Aaron222")
                 .email("aaron@gmail.com")
                 .create_dt(Timestamp.now())
                 .build();
 
         userRepository.editUser(user);
+    }
+
+    @Test
+    void fail_editUser() throws Exception {
+        User user = User.builder()
+                .id("yXMhDPpulEWGqO3ERzEU")
+                .name("Aaron")
+                .email("abcdefg@gmail.com")
+                .create_dt(Timestamp.now())
+                .build();
+
+        assertThatThrownBy(() -> userRepository.editUser(user))
+                .isInstanceOf(RuntimeException.class);
+    }
+
+    @Test
+    void findUserByEmail() throws Exception {
+        String email = "park@gmail.com";
+
+        Optional<User> userOptional = userRepository.findUserByEmail(email);
+        User user = userOptional.get();
+
+        assertEquals("Park", user.getName());
+        assertEquals(email, user.getEmail());
+    }
+
+    @Test
+    void fail_findUser() throws Exception {
+        String email = "abcdefg@gmail.com";
+        Optional<User> userOptional = userRepository.findUserByEmail(email);
+        Assertions.assertTrue(userOptional.isEmpty());
     }
 }

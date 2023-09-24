@@ -174,7 +174,32 @@ void getAllUsers() throws Exception {
 ### 특정 데이터(Document) 조회
 
 ```java
+public Optional<User> findUserByEmail(String email) {
+    Query query = FIRE_STORE.collection(COLLECTION_NAME).whereEqualTo("email", email);
+    ApiFuture<QuerySnapshot> future = query.get();
+    try {
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if (!documents.isEmpty()) {
+            return Optional.of(documents.get(0).toObject(User.class));
+        }
+        return Optional.empty();
+    } catch (Exception e) {
+        throw new RuntimeException("문서 조회를 실패하였습니다.");
+    }
+}
 
+...
+
+@Test
+void findUserByEmail() throws Exception {
+    String email = "park@gmail.com";
+
+    Optional<User> userOptional = userRepository.findUserByEmail(email);
+    User user = userOptional.get();
+    
+    assertEquals("Park", user.getName());
+    assertEquals(email, user.getEmail());
+}
 ```
 
 ### 데이터(Document) 수정

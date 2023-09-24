@@ -64,8 +64,7 @@ public class UserRepository {
         try {
             return querySnapshot.get().isEmpty();
         } catch (Exception e) {
-            log.error("문서 조회를 실패하였습니다.");
-            return false;
+            throw new RuntimeException("문서 조회를 실패하였습니다.");
         }
     }
 
@@ -73,7 +72,7 @@ public class UserRepository {
         return !this.isNotExistEmail(querySnapshot);
     }
 
-    public Optional<User> findUser(String email) {
+    public Optional<User> findUserByEmail(String email) {
         Query query = FIRE_STORE.collection(COLLECTION_NAME).whereEqualTo("email", email);
         ApiFuture<QuerySnapshot> future = query.get();
         try {
@@ -83,8 +82,7 @@ public class UserRepository {
             }
             return Optional.empty();
         } catch (Exception e) {
-            log.error("문서 조회를 실패하였습니다.");
-            return Optional.empty();
+            throw new RuntimeException("문서 조회를 실패하였습니다.");
         }
     }
 
@@ -97,8 +95,7 @@ public class UserRepository {
             long documentCount = querySnapshot.size();
             return documentCount;
         } catch (Exception e) {
-            log.error("문서 조회를 실패하였습니다.");
-            return 0L;
+            throw new RuntimeException("문서 조회를 실패하였습니다.");
         }
     }
 }
